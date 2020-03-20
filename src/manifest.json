@@ -47,8 +47,13 @@
     "https://*/"
   ],
   "web_accessible_resources": [
-   "ocamlDoc.css",
-   "logo128.png",
-   "ocamlLogo128.png"
- ]
+    "ocamlDoc.css",
+    "logo128.png",
+    "ocamlLogo128.png"
+  ],
+  "applications": {
+    "gecko": {
+      "id": "borderify@example.com"
+    }
+  }
 }
