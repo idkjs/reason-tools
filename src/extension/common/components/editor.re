@@ -1,8 +1,6 @@
-let component = ReasonReact.statelessComponent("Editor");
+[@react.component]
+let make = (~value, ~autoFocus=?, ~editorDidMount=?, ~lang, ~readOnly=false, ~onChange=?) => {
 
-let make = (~value, ~autoFocus=?, ~editorDidMount=?, ~lang, ~readOnly=false, ~onChange=?, _) => {
-  ...component,
-  render: (_) =>
     <CodeMirror
       value
       ?editorDidMount
@@ -11,7 +9,7 @@ let make = (~value, ~autoFocus=?, ~editorDidMount=?, ~lang, ~readOnly=false, ~on
       options={
         "mode": lang == RefmtShared.ML ? "text/x-ocaml" : "javascript",
         "theme": "oceanic-next",
-        "readOnly": Js.Boolean.to_js_boolean(readOnly)
+        "readOnly":readOnly
       }
     />
 };

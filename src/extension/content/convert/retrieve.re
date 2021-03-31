@@ -18,7 +18,7 @@ let getTypeTable = (pre) =>
   switch (Js.Null.toOption(Element.nextElementSibling(pre))) {
   | None => None
   | Some(el) =>
-    if (Js.to_bool(DOMTokenList.contains(Element.classList(el), "typetable"))) {
+    if ((DOMTokenList.contains(Element.classList(el), "typetable"))) {
       let text = Element.innerText(el);
       switch (Js.Null.toOption(Element.nextSibling(el))) {
       | None => Some({el, text, remove: () => Element.remove(el)})

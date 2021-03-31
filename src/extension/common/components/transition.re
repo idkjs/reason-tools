@@ -1,19 +1,23 @@
 type action =
   | Style(ReactDOMRe.Style.t);
+[@react.component]
+let make = (~before, ~after, ~children) => {
+  let (state, dispatch) =
+    React.useReducer(
+      (_state, action) =>
+        switch (action) {
+        | Style(a) => a
+        },
+      before,
+    );
 
-let component = ReasonReact.reducerComponent("Transition");
-
-let make = (~before, ~after, children) => {
-  ...component,
-  reducer: (action, _state) =>
-    switch action {
-    | Style(a) => ReasonReact.Update(a)
+  React.useEffect1(
+    () => {
+      Js.Global.setTimeout(() => {Style(after) |> dispatch}, 0) |> ignore;
+      None;
     },
-  initialState: () => before,
-  didMount: (self) => {
-    /*TODO: why carry the payload?*/
-    ignore(Js.Global.setTimeout(self.reduce((_) => Style(after)), 0));
-    ReasonReact.NoUpdate
-  },
-  render: ({state}) => <div style=state> (ReasonReact.arrayToElement(children)) </div>
+    [|after|],
+  );
+
+  <div style=state> {children} </div>;
 };

@@ -1,8 +1,6 @@
-let component = ReasonReact.statelessComponent("OpenButton");
+[@react.component]
+let make = (~onClick, ~style=?) => {
 
-let make = (~onClick, ~style=?, _) => {
-  ...component,
-  render: (_) =>
     <span className="open-button" ?style onClick>
       <svg
         viewBox="0 0 748 1024"

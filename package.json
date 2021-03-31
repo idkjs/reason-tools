@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "build:self": "bsb -make-world",
+    "start": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "build:js": "webpack",
     "build": "npm run build:self && npm run build:js",
@@ -30,15 +31,15 @@
   "dependencies": {
     "codemirror": "^5.34.0",
     "highlight.js": "^9.8.0",
-    "react": "^16.0.0",
+    "react": "^17.0.2",
     "react-codemirror2": "^4.0.0",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.0.0",
-    "reason-react": "^0.3.0"
+    "react-dom": "^17.0.2",
+    "reason-react": "^0.9.1"
   },
   "devDependencies": {
-    "bs-platform": "^2.2.1",
-    "bs-result": "^1.1.0",
+    "bs-platform": "^8.4.2",
+    "bs-result": "github:idkjs/bs-result#main",
     "chrome-store-api": "^1.0.5",
     "file-loader": "^1.1.5",
     "generate-json-webpack-plugin": "^0.2.1",

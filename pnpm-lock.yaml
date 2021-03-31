@@ -1,20 +1,20 @@
 dependencies:
   codemirror: 5.52.0
   highlight.js: 9.18.1
-  react: 16.13.0
-  react-codemirror2: 4.3.0_codemirror@5.52.0+react@16.13.0
-  react-copy-to-clipboard: 5.0.2_react@16.13.0
-  react-dom: 16.13.0_react@16.13.0
-  reason-react: 0.3.4
+  react: 17.0.2
+  react-codemirror2: 4.3.0_codemirror@5.52.0+react@17.0.2
+  react-copy-to-clipboard: 5.0.2_react@17.0.2
+  react-dom: 17.0.2_react@17.0.2
+  reason-react: 0.9.1_31cbd770e163659eb82769e90b984eef
 devDependencies:
-  bs-platform: 2.2.3
-  bs-result: 1.1.0_bs-platform@2.2.3
+  bs-platform: 8.4.2
+  bs-result: 2.2.0_bs-platform@8.4.2
   chrome-store-api: 1.0.5
   file-loader: 1.1.11_webpack@2.7.0
   generate-json-webpack-plugin: 0.2.2
   webpack: 2.7.0
   zip-webpack-plugin: 2.1.0_webpack@2.7.0
-lockfileVersion: 5.1
+lockfileVersion: 5.2
 packages:
   /acorn-dynamic-import/2.0.2:
     dependencies:
@@ -274,20 +274,20 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Z942RysHXmJrhqk88FmKBVq/v5tqmSkDz7p54G/MGyjMnCFFnC79XWNbg+Vta8W6Wb2qtSZTSxIGkJrRpCFEiA==
-  /bs-platform/2.2.3:
+  /bs-platform/8.4.2:
     dev: true
     hasBin: true
     requiresBuild: true
     resolution:
-      integrity: sha1-2QWuEKXzYh5qc5BB36C1hIOiF08=
-  /bs-result/1.1.0_bs-platform@2.2.3:
+      integrity: sha512-9q7S4/LLV/a68CweN382NJdCCr/lOSsJR3oQYnmPK98ChfO/AdiA3lYQkQTp6T+U0I5Z5RypUAUprNstwDtMDQ==
+  /bs-result/2.2.0_bs-platform@8.4.2:
     dependencies:
-      bs-platform: 2.2.3
+      bs-platform: 8.4.2
     dev: true
     peerDependencies:
-      bs-platform: ^3.0.0
+      bs-platform: ^3.1.4
     resolution:
-      integrity: sha1-3MHjykaS7F+jHfg78oi1yi0SPm8=
+      integrity: sha1-KFseHqZtSx5vVSrCZeNCDO1ygJ4=
   /buffer-crc32/0.2.13:
     dev: true
     resolution:
@@ -1666,52 +1666,50 @@ packages:
     dev: true
     resolution:
       integrity: sha512-87lcbR8+MhcWcUiQ+9e+Rwx8MyR2P7qnt15ynUlbm3TU/fjbgz4GsvfSUDTemtCCtVCqb4ZcEFlyPNTh9bBTLw==
-  /react-codemirror2/4.3.0_codemirror@5.52.0+react@16.13.0:
+  /react-codemirror2/4.3.0_codemirror@5.52.0+react@17.0.2:
     dependencies:
       codemirror: 5.52.0
-      react: 16.13.0
+      react: 17.0.2
     dev: false
     peerDependencies:
       codemirror: 5.x
       react: '>=15.5 <=16.x'
     resolution:
       integrity: sha512-tC0n9CHgrQYc976pUlKOaVJYEHAAYTVMers04gNy6jbkFf4rbPlw72y7bbOAfkHHvu6COG5S629Fek30bvHe8w==
-  /react-copy-to-clipboard/5.0.2_react@16.13.0:
+  /react-copy-to-clipboard/5.0.2_react@17.0.2:
     dependencies:
       copy-to-clipboard: 3.3.1
       prop-types: 15.7.2
-      react: 16.13.0
+      react: 17.0.2
     dev: false
     peerDependencies:
       react: ^15.3.0 || ^16.0.0
     resolution:
       integrity: sha512-/2t5mLMMPuN5GmdXo6TebFa8IoFxZ+KTDDqYhcDm0PhkgEzSxVvIX26G20s1EB02A4h2UZgwtfymZ3lGJm0OLg==
-  /react-dom/16.13.0_react@16.13.0:
+  /react-dom/17.0.2_react@17.0.2:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      prop-types: 15.7.2
-      react: 16.13.0
-      scheduler: 0.19.0
+      react: 17.0.2
+      scheduler: 0.20.2
     dev: false
     peerDependencies:
-      react: ^16.0.0
+      react: 17.0.2
     resolution:
-      integrity: sha512-y09d2c4cG220DzdlFkPTnVvGTszVvNpC73v+AaLGLHbkpy3SSgvYq8x0rNwPJ/Rk/CicTNgk0hbHNw1gMEZAXg==
+      integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==
   /react-is/16.13.0:
     dev: false
     resolution:
       integrity: sha512-GFMtL0vHkiBv9HluwNZTggSn/sCyEt9n02aM0dSAjGGyqyNlAyftYm4phPxdvCigG15JreC5biwxCgTAJZ7yAA==
-  /react/16.13.0:
+  /react/17.0.2:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      prop-types: 15.7.2
     dev: false
     engines:
       node: '>=0.10.0'
     resolution:
-      integrity: sha512-TSavZz2iSLkq5/oiE7gnFzmURKZMltmi193rm5HEoUDAXpzT9Kzw6oNZnGoai/4+fUnm7FqS5dwgUL34TujcWQ==
+      integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
   /read-pkg-up/1.0.1:
     dependencies:
       find-up: 1.1.2
@@ -1753,13 +1751,18 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha512-1JU/8q+VgFZyxwrJ+SVIOsh+KywWGpds3NTqikiKpDMZWScmAYyKIgqkO+ARvNWJfXeXR1zxz7aHF4u4CyH6vQ==
-  /reason-react/0.3.4:
+  /reason-react/0.9.1_31cbd770e163659eb82769e90b984eef:
     dependencies:
-      react: 16.13.0
-      react-dom: 16.13.0_react@16.13.0
+      bs-platform: 8.4.2
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
+    peerDependencies:
+      bs-platform: ^7.1.1
+      react: ^16.8.1
+      react-dom: ^16.8.1
     resolution:
-      integrity: sha512-+Lpq898zaLP4Ps+cS2UC/FzFhn2XdGQDkZm1NOjXV/oxWLtk677C0EiEAxc28s86qEFy+wuY2pkU8zO7IptjPQ==
+      integrity: sha512-nlH0O2TDy9KzOLOW+vlEQk4ExHOeciyzFdoLcsmmiit6hx6H5+CVDrwJ+8aiaLT/kqK5xFOjy4PS7PftWz4plA==
   /regex-not/1.0.2:
     dependencies:
       extend-shallow: 3.0.2
@@ -1840,13 +1843,13 @@ packages:
     dev: true
     resolution:
       integrity: sha1-QKNmnzsHfR6UPURinhV91IAjvy4=
-  /scheduler/0.19.0:
+  /scheduler/0.20.2:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
     resolution:
-      integrity: sha512-xowbVaTPe9r7y7RUejcK73/j8tt2jfiyTednOvHbA8JoClvMYCp+r8QegLwK/n8zWQAtZb1fFnER4XLBZXrCxA==
+      integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==
   /schema-utils/0.4.7:
     dependencies:
       ajv: 6.12.0
@@ -2341,17 +2344,17 @@ packages:
     resolution:
       integrity: sha1-6dBgzNavz3xgsJtuLlYnWxgeHXI=
 specifiers:
-  bs-platform: ^2.2.1
-  bs-result: ^1.1.0
+  bs-platform: ^8.4.2
+  bs-result: github:idkjs/bs-result#main
   chrome-store-api: ^1.0.5
   codemirror: ^5.34.0
   file-loader: ^1.1.5
   generate-json-webpack-plugin: ^0.2.1
   highlight.js: ^9.8.0
-  react: ^16.0.0
+  react: ^17.0.2
   react-codemirror2: ^4.0.0
   react-copy-to-clipboard: ^5.0.1
-  react-dom: ^16.0.0
-  reason-react: ^0.3.0
+  react-dom: ^17.0.2
+  reason-react: ^0.9.1
   webpack: ^2.4.1
   zip-webpack-plugin: ^2.0.0

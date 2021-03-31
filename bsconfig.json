@@ -2,7 +2,7 @@
 {
   "name" : "reason-tools",
   "version": "0.0.0",
-  "reason" : {"react-jsx" : 2},
+  "reason" : {"react-jsx" : 3},
   "bs-dependencies": ["reason-react", "bs-result"],
   "sources": {
     "dir": "src",
@@ -11,6 +11,5 @@
       {"dir": "refmt"}
     ]
   },
-  "package-specs": ["es6"],
-  "refmt": 3
+  "package-specs": ["es6"]
 }
