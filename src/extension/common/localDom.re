@@ -5,12 +5,12 @@ module Arrayish = {
 
 module DOMTokenList = {
   type t;
-  [@bs.send] external contains : (t, string) => Js.boolean = "contains";
+  [@bs.send] external contains : (t, string) => bool = "contains";
 };
 
 module Style = {
   type t;
-  [@bs.get] external backgroundImage : t => string = "";
+  [@bs.get] external backgroundImage : t => string = "backgroundImage";
   [@bs.set] external setBackgroundImage : (t, string) => unit = "backgroundImage";
   [@bs.set] external setBackgroundSize : (t, string) => unit = "backgroundSize";
   [@bs.set] external setTop : (t, string) => unit = "top";
@@ -39,11 +39,11 @@ module Element = {
   [@bs.set] external setOnClick : (t, Js.t({..}) => unit) => unit = "onclick";
   [@bs.send] external appendChild : (t, t) => unit = "";
   [@bs.send] external getAttribute : (t, string) => string = "getAttribute";
-  [@bs.send] external getElementsByClassName : (t, string) => Arrayish.t(t) = "";
-  [@bs.send] external getElementsByTagName : (t, string) => Arrayish.t(t) = "";
+  [@bs.send] external getElementsByClassName : (t, string) => Arrayish.t(t) = "getElementsByClassName";
+  [@bs.send] external getElementsByTagName : (t, string) => Arrayish.t(t) = "getElementsByTagName";
   [@bs.send] external remove : t => unit = "remove";
-  [@bs.send] external querySelectorAll : (t, string) => Arrayish.t(t) = "";
-  [@bs.send] external attachShadow : (t, Js.t({..})) => t = "";
+  [@bs.send] external querySelectorAll : (t, string) => Arrayish.t(t) = "querySelectorAll";
+  [@bs.send] external attachShadow : (t, Js.t({..})) => t = "attachShadow";
   external toReasonJsElement : t => Dom.element = "%identity";
 };
 
@@ -51,14 +51,14 @@ module Node = {
   let _TEXT_NODE = 3;
   let _DOCUMENT_POSITION_PRECEDING = 2;
   let _DOCUMENT_POSITION_CONTAINS = 8;
-  [@bs.get] external nodeType : Element.t => int = "";
-  [@bs.get] external nodeValue : Element.t => string = "";
-  [@bs.get] external parentNode : Element.t => Element.t = "";
-  [@bs.send] external cloneNode : Element.t => Element.t = "";
-  [@bs.send] external compareDocumentPosition : (Element.t, Element.t) => int = "";
+  [@bs.get] external nodeType : Element.t => int = "nodeType";
+  [@bs.get] external nodeValue : Element.t => string = "nodeValue";
+  [@bs.get] external parentNode : Element.t => Element.t = "parentNode";
+  [@bs.send] external cloneNode : Element.t => Element.t = "cloneNode";
+  [@bs.send] external compareDocumentPosition : (Element.t, Element.t) => int = "compareDocumentPosition";
   [@bs.send]
-  external insertBefore : (~target: Element.t, ~new_: Element.t, ~ref_: Element.t) => unit = "";
-  [@bs.send] external removeChild : (Element.t, Element.t) => unit = "";
+  external insertBefore : (~target: Element.t, ~new_: Element.t, ~ref_: Element.t) => unit = "insertBefore";
+  [@bs.send] external removeChild : (Element.t, Element.t) => unit = "removeChild";
 };
 
 module Document = {
@@ -79,7 +79,7 @@ module Location = {
   [@bs.val] external hash : string = "window.location.hash";
   [@bs.val] external hostname : string = "window.location.hostname";
   [@bs.val] external pathname : string = "window.location.pathname";
-  [@bs.val] external reload : Js.boolean => unit = "window.location.reload";
+  [@bs.val] external reload : bool => unit = "window.location.reload";
 };
 
 module Body = {
@@ -94,10 +94,10 @@ module Head = {
 
 module Selection = {
   type t;
-  [@bs.get] external anchorNode : t => Element.t = "";
-  [@bs.get] external focusNode : t => Element.t = "";
-  [@bs.send] external toString : t => string = "";
-  [@bs.send] external removeAllRanges : t => unit = "";
+  [@bs.get] external anchorNode : t => Element.t = "anchorNode";
+  [@bs.get] external focusNode : t => Element.t = "focusNode";
+  [@bs.send] external toString : t => string = "toString";
+  [@bs.send] external removeAllRanges : t => unit = "removeAllRanges";
 };
 
 module Window = {

@@ -240,10 +240,10 @@ let refmt = (code, inLang, inType, outLang) => {
       | Ast(REOI(_)) => REO
       | Error(_) => UnknownLang
       };
-    Result.Ok((trueIn, trueOut, printedResult))
+    Belt.Result.Ok((trueIn, trueOut, printedResult))
   } {
   | a => {
-    Result.Error(a |> Printexc.to_string)
+    Belt.Result.Error(a |> Printexc.to_string)
     }
   }
 };

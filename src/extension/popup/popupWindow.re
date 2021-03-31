@@ -9,7 +9,7 @@ let select = (name, onChange, language, lang) =>
   <select name onChange value=(Protocol.stringOfLanguage(language))>
     <option value="auto">
       (
-        ReasonReact.stringToElement(
+        React.string(
           "Auto"
           ++ (
             switch (lang, language) {
@@ -21,9 +21,9 @@ let select = (name, onChange, language, lang) =>
         )
       )
     </option>
-    <option value="RE"> (ReasonReact.stringToElement("RE")) </option>
-    <option value="ML"> (ReasonReact.stringToElement("ML")) </option>
-    <option value="REO"> (ReasonReact.stringToElement("RE v1")) </option>
+    <option value="RE"> (React.string("RE")) </option>
+    <option value="ML"> (React.string("ML")) </option>
+    <option value="REO"> (React.string("RE v1")) </option>
   </select>;
 
 type state = {
