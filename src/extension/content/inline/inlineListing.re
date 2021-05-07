@@ -2,21 +2,18 @@ open Core;
 
 external refToElement: Dom.element => LocalDom.Element.t = "%identity";
 
-type state = {preRef: ref(option(Dom.element))};
+type state = {preRef: ref(Js.Nullable.t(Dom.element))};
 type action =
   | UpdateRef(state);
 // let updatePreRef = (r, {ReasonReact.state}) =>
 //   state.preRef := Js.Nullable.toOption(r);
-
-// let component = ReasonReact.reducerComponent("InlineListing");
+let preRef = React.useRef(Js.Nullable.null);
 [@react.component]
 let make = (~lang, ~text, ~slideInFrom, ~open_) => {
-  let (state, setState) = React.useState(() => {preRef: ref(None)});
-let updatePreRef = (r) =>
-  state.preRef := Js.Nullable.toOption(r);
+  let (state, _) = React.useState(() => preRef);
   React.useEffect1(
     () => {
-      switch (state.preRef^) {
+      switch (state.current->Js.Nullable.toOption) {
       | Some(r) => Hljs.highlightBlock(refToElement(r))
       | None => ()
       };
@@ -47,7 +44,7 @@ let updatePreRef = (r) =>
         {React.string(Protocol.stringOfLanguage(lang))}
       </div>
       <div className="main">
-        <pre ref={setState(updatePreRef)}> {React.string(text)} </pre>
+        <pre ref={ReactDOM.Ref.domRef(preRef)}> {React.string(text)} </pre>
         <footer>
           <CopyButton
             text

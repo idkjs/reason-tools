@@ -9,26 +9,24 @@ let mapOrElse = (resolve, reject, item) =>
   };
 
 let getSelection = () =>
-  Promise.make(
-    (resolve, reject) =>
-      Chrome.Tabs.executeScript(
-        {"code": "window.getSelection().toString()"},
-        (maybeMaybeArray) => {
-          maybeMaybeArray
-          |> Js.Null_undefined.to_opt
-          |> Js.Option.andThen([@bs](maybeArray) => Js.Array.findi((_, index) => index === 0, maybeArray))
-          |> Js.Option.andThen([@bs](s) => s == "" ? None : Some(s))
-          |> mapOrElse(resolve, reject);
-        }
-      )
+  Promise.make((resolve, reject) =>
+    Chrome.Tabs.executeScript(
+      {"code": "window.getSelection().toString()"}, maybeMaybeArray => {
+      maybeMaybeArray
+      |> Js.Nullable.toOption
+      |> Js.Option.andThen((. maybeArray) =>
+           Js.Array.findi((_, index) => index === 0, maybeArray)
+         )
+      |> Js.Option.andThen((. s) => s == "" ? None : Some(s))
+      |> mapOrElse(resolve, reject)
+    })
   );
 
 let getLatestInput = () =>
-  Promise.make(
-    (resolve, reject) =>
-      Protocol.Storage.queryLatestInput(
-        (maybeInput) => maybeInput |> mapOrElse(resolve, reject)
-      )
+  Promise.make((resolve, reject) =>
+    Protocol.Storage.queryLatestInput(maybeInput =>
+      maybeInput |> mapOrElse(resolve, reject)
+    )
   );
 
 let refmt =
@@ -37,25 +35,22 @@ let refmt =
       ~inLang=RefmtShared.UnknownLang,
       ~inType=RefmtShared.UnknownType,
       ~outLang=RefmtShared.UnknownLang,
-      cb
+      cb,
     ) => {
-  Protocol.Refmt.send(
-    input,
-    ~inLang,
-    ~inType,
-    ~outLang,
-    (error) =>
-      switch error {
-      | Result.Error(error) => cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
-      | Result.Ok({outText, inLang, outLang}) => cb(outText, inLang, outLang)
-      }
+  Protocol.Refmt.send(input, ~inLang, ~inType, ~outLang, res =>
+    switch (res) {
+    | Belt.Result.Ok({outText, inLang, outLang}) =>
+      cb(outText, inLang, outLang)
+    | Belt.Result.Error(error) =>
+      cb(error, RefmtShared.UnknownLang, RefmtShared.UnknownLang)
+    }
   );
-  Protocol.Storage.setLatestInput(input)
+  Protocol.Storage.setLatestInput(input);
 };
 
 let onOpen = Protocol.OpenInTab.send;
 
 Document.addEventListener(
   "DOMContentLoaded",
-  PopupCommon.init(~getSelection, ~getLatestInput, ~onOpen, ~refmt)
+  PopupCommon.init(~getSelection, ~getLatestInput, ~onOpen, ~refmt),
 );

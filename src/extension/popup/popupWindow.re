@@ -6,43 +6,40 @@ type action =
   | OutLanguageChange(RefmtShared.language);
 
 let select = (name, onChange, language, lang) =>
-  <select name onChange value=(Protocol.stringOfLanguage(language))>
+  <select name onChange value={Protocol.stringOfLanguage(language)}>
     <option value="auto">
-      (
-        React.string(
-          "Auto"
-          ++ (
-            switch (lang, language) {
-            | (lang, RefmtShared.UnknownLang) when lang != RefmtShared.UnknownLang =>
-              " (" ++ Protocol.stringOfLanguage(lang) ++ ")"
-            | _ => ""
-            }
-          )
-        )
-      )
+      {React.string(
+         "Auto"
+         ++ (
+           switch (lang, language) {
+           | (lang, RefmtShared.UnknownLang)
+               when lang != RefmtShared.UnknownLang =>
+             " (" ++ Protocol.stringOfLanguage(lang) ++ ")"
+           | _ => ""
+           }
+         ),
+       )}
     </option>
-    <option value="RE"> (React.string("RE")) </option>
-    <option value="ML"> (React.string("ML")) </option>
-    <option value="REO"> (React.string("RE v1")) </option>
+    <option value="RE"> {React.string("RE")} </option>
+    <option value="ML"> {React.string("ML")} </option>
+    <option value="REO"> {React.string("RE v1")} </option>
   </select>;
 
 type state = {
   copyConfirmation: string,
   inLanguage: Protocol.language,
   outLanguage: Protocol.language,
-  dialogKillTimer: ref(option(Js.Global.timeoutId))
+  dialogKillTimer: ref(option(Js.Global.timeoutId)),
 };
 
-let resetTimer = ({ReasonReact.state, reduce}) => {
-  switch state.dialogKillTimer^ {
-  | None => ()
-  | Some(timer) => Js.Global.clearTimeout(timer)
-  };
-  state.dialogKillTimer := Some(Js.Global.setTimeout(reduce(() => RemoveCopyConfirmation), 2500))
+let initialState = {
+  copyConfirmation: "",
+  inLanguage: RefmtShared.UnknownLang,
+  outLanguage: RefmtShared.UnknownLang,
+  dialogKillTimer: ref(None),
 };
 
-let component = ReasonReact.reducerComponent("PopupWindow");
-
+[@react.component]
 let make =
     (
       ~inText,
@@ -52,102 +49,131 @@ let make =
       ~link,
       ~onOpen,
       ~onInputChanged:
-         (~inLang: Protocol.language=?, ~outLang: Protocol.language=?, string) => unit,
-      _
+         (
+           ~inLang: Protocol.language=?,
+           ~outLang: Protocol.language=?,
+           string
+         ) =>
+         unit,
+      _,
     ) => {
-  ...component,
-  reducer: (action, state) =>
-    switch action {
-    | LinkCopyConfirmation =>
-      ReasonReact.UpdateWithSideEffects(
-        {...state, copyConfirmation: "Link copied to clipboard"},
-        resetTimer
-      )
-    | TextCopyConfirmation =>
-      ReasonReact.UpdateWithSideEffects(
-        {...state, copyConfirmation: "Text copied to clipboard"},
-        resetTimer
-      )
-    | RemoveCopyConfirmation => ReasonReact.Update({...state, copyConfirmation: ""})
-    | InLanguageChange(lang) =>
-      ReasonReact.UpdateWithSideEffects(
-        {...state, inLanguage: lang},
-        ((self) => onInputChanged(~inLang=lang, ~outLang=self.state.outLanguage, inText))
-      )
-    | OutLanguageChange(lang) =>
-      ReasonReact.UpdateWithSideEffects(
-        {...state, outLanguage: lang},
-        ((self) => onInputChanged(~inLang=self.state.inLanguage, ~outLang=lang, inText))
-      )
-    },
-  initialState: () => {
-    copyConfirmation: "",
-    inLanguage: RefmtShared.UnknownLang,
-    outLanguage: RefmtShared.UnknownLang,
-    dialogKillTimer: ref(None)
-  },
-  render: ({state, reduce, handle}) => {
-    Js.log(inText);
-    let inLanguageChange = (event) => {
-      let lang =
-        event
-        |> ReactEventRe.Synthetic.target
-        |> LocalDom.Element.value
-        |> Protocol.languageOfString;
-      InLanguageChange(lang)
+  let (state, dispatch) =
+    React.useReducer(
+      (state, action) =>
+        switch (action) {
+        | LinkCopyConfirmation => {
+            ...state,
+            copyConfirmation: "Link copied to clipboard",
+          }
+
+        | TextCopyConfirmation => {
+            ...state,
+            copyConfirmation: "Text copied to clipboard",
+          }
+        | RemoveCopyConfirmation => {...state, copyConfirmation: ""}
+        | InLanguageChange(lang) => {...state, inLanguage: lang}
+
+        | OutLanguageChange(lang) => {...state, outLanguage: lang}
+        },
+      initialState,
+    );
+
+  let resetTimer = () => {
+    switch (state.dialogKillTimer^) {
+    | None => ()
+    | Some(timer) => Js.Global.clearTimeout(timer)
     };
-    let outLanguageChange = (event) => {
-      let lang =
-        event
-        |> ReactEventRe.Synthetic.target
-        |> LocalDom.Element.value
-        |> Protocol.languageOfString;
-      OutLanguageChange(lang)
-    };
-    let handleInputChange = (input, {ReasonReact.state}) =>
-      onInputChanged(~inLang=state.inLanguage, ~outLang=state.outLanguage, input);
-    <div style=PopupStyles.popup>
-      <div style=PopupStyles.popupColumn>
-        <h1 style=PopupStyles.popupContext>
-          <ColumnTitle
-            lang=inLang
-            select=(select("in", reduce(inLanguageChange), state.inLanguage, inLang))
-          />
-        </h1>
-        <Editor
-          value=inText
+    state.dialogKillTimer :=
+      Some(Js.Global.setTimeout((() => dispatch(RemoveCopyConfirmation)), 2500));
+  };
+
+  Js.log(inText);
+  let linkCopyConfirmation = _event => {
+    resetTimer();
+    dispatch(LinkCopyConfirmation);
+  };
+  let textCopyConfirmation = _event => {
+    resetTimer();
+    dispatch(TextCopyConfirmation);
+  };
+  let inLanguageChange = event => {
+    let lang =
+      event
+      -> ReactEvent.Synthetic.target##value
+      |> LocalDom.Element.value
+      |> Protocol.languageOfString;
+    onInputChanged(~inLang=state.inLanguage, ~outLang=lang, inText);
+    InLanguageChange(lang)->dispatch;
+  };
+  let outLanguageChange = event => {
+    let lang =
+      event
+      -> ReactEvent.Synthetic.target##value
+      |> LocalDom.Element.value
+      |> Protocol.languageOfString;
+    onInputChanged(~inLang=state.inLanguage, ~outLang=lang, inText);
+    dispatch(OutLanguageChange(lang));
+  };
+  let handleInputChange = input =>
+    onInputChanged(
+      ~inLang=state.inLanguage,
+      ~outLang=state.outLanguage,
+      input,
+    );
+  <div style=PopupStyles.popup>
+    <div style=PopupStyles.popupColumn>
+      <h1 style=PopupStyles.popupContext>
+        <ColumnTitle
           lang=inLang
-          autoFocus=true
-          editorDidMount={editor => CodeMirror.execCommand(editor, "selectAll")}
-          onChange=(handle(handleInputChange))
+          select={select(
+            "in",
+            inLanguageChange,
+            state.inLanguage,
+            inLang,
+          )}
         />
-      </div>
-      <div style=PopupStyles.popupColumn>
-        <h1 style=PopupStyles.popupContext>
-          <ColumnTitle
-            lang=outLang
-            select=(select("out", reduce(outLanguageChange), state.outLanguage, outLang))
-          />
-          <CopyButton
-            style=PopupStyles.contextLink
-            label="share"
-            text=link
-            onCopy=(reduce((_) => LinkCopyConfirmation))
-          />
-          <CopyButton
-            style=PopupStyles.contextLink
-            text=outText
-            onCopy=(reduce((_) => TextCopyConfirmation))
-          />
-          <OpenButton style=PopupStyles.contextIcon onClick=((_) => onOpen(inText)) />
-        </h1>
-        <Editor value=outText lang=outLang readOnly=true />
-        <CopyConfirmation
-          style=PopupStyles.copyConfirmation
-          show=(state.copyConfirmation !== "")
-          text=state.copyConfirmation
-        />
-      </div>
+      </h1>
+      <Editor
+        value=inText
+        lang=inLang
+        autoFocus=true
+        editorDidMount={editor => CodeMirror.execCommand(editor, "selectAll")}
+        onChange={text => handleInputChange(text)}
+      />
     </div>
-  }
+    <div style=PopupStyles.popupColumn>
+      <h1 style=PopupStyles.popupContext>
+        <ColumnTitle
+          lang=outLang
+          select={select(
+            "out",
+            outLanguageChange,
+            state.outLanguage,
+            outLang,
+          )}
+        />
+        <CopyButton
+          style=PopupStyles.contextLink
+          label="share"
+          text=link
+          onCopy={_ => linkCopyConfirmation()}
+        />
+        <CopyButton
+          style=PopupStyles.contextLink
+          text=outText
+          onCopy={_ => textCopyConfirmation()}
+        />
+        <OpenButton
+          style=PopupStyles.contextIcon
+          onClick={_ => onOpen(inText)}
+        />
+      </h1>
+      <Editor value=outText lang=outLang readOnly=true />
+      <CopyConfirmation
+        style=PopupStyles.copyConfirmation
+        show={state.copyConfirmation !== ""}
+        text={state.copyConfirmation}
+      />
+    </div>
+  </div>;
 };

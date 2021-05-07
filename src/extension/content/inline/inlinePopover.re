@@ -1,8 +1,6 @@
-let component = ReasonReact.statelessComponent("InlinePopover");
-
+[@react.component]
 let make = (~inLang, ~inText, ~outLang, ~outText, ~close, ~open_, _) => {
-  ...component,
-  render: (_) =>
+
     <div className="root-container">
       <Transition
         before=(ReactDOMRe.Style.make(~opacity="0", ()))

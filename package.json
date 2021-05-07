@@ -29,21 +29,21 @@
     "test": "exit 0"
   },
   "dependencies": {
-    "codemirror": "^5.34.0",
-    "highlight.js": "^9.8.0",
+    "codemirror": "^5.61.0",
+    "highlight.js": "^10.7.2",
     "react": "^17.0.2",
-    "react-codemirror2": "^4.0.0",
-    "react-copy-to-clipboard": "^5.0.1",
+    "react-codemirror2": "^7.2.1",
+    "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.2",
     "reason-react": "^0.9.1"
   },
   "devDependencies": {
-    "bs-platform": "^8.4.2",
-    "bs-result": "github:idkjs/bs-result#main",
+    "bs-platform": "^9.0.2",
+    "bs-result": "github:idkjs/bs-result",
     "chrome-store-api": "^1.0.5",
-    "file-loader": "^1.1.5",
-    "generate-json-webpack-plugin": "^0.2.1",
-    "webpack": "^2.4.1",
-    "zip-webpack-plugin": "^2.0.0"
+    "file-loader": "^6.2.0",
+    "generate-json-webpack-plugin": "^2.0.0",
+    "webpack": "^5.36.2",
+    "zip-webpack-plugin": "^4.0.1"
   }
 }
